@@ -1,0 +1,5 @@
+[default]
+server_port_http = 8080
+trading_pair = "BTCFDUSD"
+ws_config_retry_count = 10
+ws_config_retry_max = 20
