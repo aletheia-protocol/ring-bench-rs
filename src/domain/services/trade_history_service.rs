@@ -5,6 +5,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use once_cell::sync::Lazy;
 use tokio::sync::Mutex;
 use crate::domain::entities::trade::{TradeData, TradeSD};
+use crate::ports::stats::stats_recorder_service::StatsRecorderService;
 
 // Static singleton for global trade history storage
 pub static TRADE_HISTORY: Lazy<Arc<Mutex<VecDeque<TradeData>>>> = Lazy::new(|| {
@@ -23,9 +24,11 @@ impl TradeHistoryService {
         let current_time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() as u64;
 
         log::info!("New Trade: {}",&trade_sd.data);
+
+        StatsRecorderService::track_price(trade_sd.data.price.parse::<f64>().unwrap_or(0.0));
         // Keep trades within a larger window (e.g., 70 seconds)
         while let Some(oldest_trade) = trades.front() {
-            if current_time - oldest_trade.trade_time > 70_000 {
+            if current_time >= oldest_trade.trade_time && current_time - oldest_trade.trade_time > 70_000 {
                 trades.pop_front();
             } else {
                 break;

@@ -20,8 +20,6 @@ services:
       - ./grafana/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
-    networks:
-      - oracle
   grafana:
     container_name: grafana
     image: grafana/grafana
@@ -30,8 +28,7 @@ services:
       - "3000:3000"
     volumes:
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
-    networks:
-      - oracle
-networks:
-  oracle:
-    driver: bridge
+#networks:
+#  oracle:
+#    driver: bridge
+#    external: false

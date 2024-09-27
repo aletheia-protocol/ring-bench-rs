@@ -1,1 +1,1 @@
-mod stats_recorder;
+pub mod stats_recorder_service;
