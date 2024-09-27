@@ -1,5 +1,3 @@
-use std::sync::Arc;
-use crate::domain::services::trade_history_service::TradeHistoryService;
 use crate::ports::ws_client_trade;
 
 mod ports;
@@ -13,7 +11,7 @@ async fn main() {
     // Log the start of the application
     log::info!("Starting application...");
 
-    let trade_history_service = Arc::new(TradeHistoryService);
+    //let trade_history_service = Arc::new(TradeHistoryService);
 
     let websocket_trade_handle = tokio::spawn( async{
         log::info!("Starting Trade Stream WebSocket client...");
