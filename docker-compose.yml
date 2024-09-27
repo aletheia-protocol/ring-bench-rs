@@ -1,16 +1,35 @@
 version: '3.8'
 
 services:
-  rust-app:
-    build: .
-    ports:
-      - "${SERVER_PORT_HTTP:-8080}:8080"
-    environment:
-      RUST_LOG: "info"
-      SERVER_PORT_HTTP: ${SERVER_PORT_HTTP:-8080}
-      TRADING_PAIR: ${TRADING_PAIR:-BTCFDUSD}
+#  rust-app:
+#    build: .
+#    ports:
+#      - "${SERVER_PORT_HTTP:-8080}:8080"
+#    environment:
+#      RUST_LOG: "info"
+#      SERVER_PORT_HTTP: ${SERVER_PORT_HTTP:-8080}
+#      TRADING_PAIR: ${TRADING_PAIR:-BTCFDUSD}
+#    volumes:
+#      - ./resources/config.toml:/usr/src/app/resources/config.toml
+#    networks:
+#      - oracle
+  prometeus:
+    container_name: prometheus
+    image: prom/prometheus
     volumes:
-      - ./resources/config.toml:/usr/src/app/resources/config.toml
+      - ./grafana/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - oracle
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     networks:
       - oracle
 networks:
