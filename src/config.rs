@@ -7,13 +7,13 @@ use once_cell::sync::Lazy;
 
 #[derive(Debug, Deserialize)]
 pub struct DefaultConfig {
-    pub server_port_http: u16,
+    pub prometheus_port_http: u16,
     pub trading_pair: String,
     pub ws_config_retry_max: u16,
 }
 
 enum EnvVar {
-    ServerPortHTTP,
+    PrometheusPortHTTP,
     TradingPair,
     WSConfigRetryMax
 }
@@ -39,7 +39,7 @@ impl EnvVar {
     // Returns the environment variable name as a &str
     fn as_str(&self) -> &str {
         match self {
-            EnvVar::ServerPortHTTP => "SERVER_PORT_HTTP",
+            EnvVar::PrometheusPortHTTP => "SERVER_PORT_HTTP",
             EnvVar::TradingPair => "TRADING_PAIR",
             EnvVar::WSConfigRetryMax => "WS_CONFIG_RETRY_MAX"
         }
@@ -76,8 +76,8 @@ pub fn load_config_from_env_or_file() -> Result<AppConfig, Box<dyn Error>> {
     let mut config = load_config()?;
 
     // Override with environment variables if they exist
-    config.default.server_port_http = EnvVar::ServerPortHTTP
-        .get_value(&config.default.server_port_http); // u16 for server_port_http
+    config.default.prometheus_port_http = EnvVar::PrometheusPortHTTP
+        .get_value(&config.default.prometheus_port_http); // u16 for server_port_http
 
     config.default.trading_pair = EnvVar::TradingPair
         .get_value(&config.default.trading_pair); // String for trading_pair

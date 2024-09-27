@@ -19,6 +19,7 @@ prometheus = "0.13"
 lazy_static = "1.4"
 warp = "0.3.7"
 
+
 [[bin]]
 name = "ring_bench_rs"
 path = "src/main.rs"

@@ -4,10 +4,10 @@ services:
 #  rust-app:
 #    build: .
 #    ports:
-#      - "${SERVER_PORT_HTTP:-8080}:8080"
+#      - "${PROMETHEUS_PORT_HTTP:-3030}:3030"
 #    environment:
 #      RUST_LOG: "info"
-#      SERVER_PORT_HTTP: ${SERVER_PORT_HTTP:-8080}
+#      PROMETHEUS_PORT_HTTP: ${PROMETHEUS_PORT_HTTP:-3030}
 #      TRADING_PAIR: ${TRADING_PAIR:-BTCFDUSD}
 #    volumes:
 #      - ./resources/config.toml:/usr/src/app/resources/config.toml
